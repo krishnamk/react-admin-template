@@ -1,70 +1,49 @@
-import {AlertCircle, Bell, Home, UserPlus} from "react-feather";
-import React from "react";
 
-function Notifications() {
+import React from "react";
+import * as Icons from "react-feather";
+
+const NotificationIcon = Icons['Bell'];
+const toPascalCase = (str) => {
+    return str
+        .replace(/-([a-z])/g, (match, letter) => letter.toUpperCase()) // Convert kebab-case to camelCase
+        .replace(/^./, (match) => match.toUpperCase()); // Capitalize first letter
+};
+function Notifications(props) {
     return (
         <li className="nav-item dropdown">
             <a className="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                 <div className="position-relative">
-                    <Bell className="align-middle" />
-                    <span className="indicator">4</span>
+                    <NotificationIcon className="align-middle" />
+                    <span className="indicator">{props.Notifications.length}</span>
                 </div>
             </a>
-            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
+            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown" >
                 <div className="dropdown-menu-header">
-                    4 New Notifications
+                    { props.Notifications.length?props.Notifications.length:'No'} New Notifications
                 </div>
-                <div className="list-group">
-                    <a href="#" className="list-group-item">
-                        <div className="row g-0 align-items-center">
-                            <div className="col-2">
-                                <AlertCircle className="text-danger" />
-                            </div>
-                            <div className="col-10">
-                                <div className="text-dark">Update completed</div>
-                                <div className="text-muted small mt-1">Restart server 12 to complete the update.</div>
-                                <div className="text-muted small mt-1">30m ago</div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" className="list-group-item">
-                        <div className="row g-0 align-items-center">
-                            <div className="col-2">
-                                <Bell className="text-warning" />
-                            </div>
-                            <div className="col-10">
-                                <div className="text-dark">Lorem ipsum</div>
-                                <div className="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate hendrerit et.</div>
-                                <div className="text-muted small mt-1">2h ago</div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" className="list-group-item">
-                        <div className="row g-0 align-items-center">
-                            <div className="col-2">
-                                <Home className="text-primary" />
-                            </div>
-                            <div className="col-10">
-                                <div className="text-dark">Login from 192.186.1.8</div>
-                                <div className="text-muted small mt-1">5h ago</div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" className="list-group-item">
-                        <div className="row g-0 align-items-center">
-                            <div className="col-2">
-                                <UserPlus className="text-success" />
-                            </div>
-                            <div className="col-10">
-                                <div className="text-dark">New connection</div>
-                                <div className="text-muted small mt-1">Christina accepted your request.</div>
-                                <div className="text-muted small mt-1">14h ago</div>
-                            </div>
-                        </div>
-                    </a>
+                <div className="list-group" style={{ visibility: props.Notifications.length ? "visible" : "hidden" }}>
+                    {
+                        props.Notifications.map((notification, index) => {
+                            const IconComponent = Icons[toPascalCase(notification.icon)];
+                            return (
+                                <a href="#" className="list-group-item" key={index}>
+                                    <div className="row g-0 align-items-center">
+                                        <div className="col-2">
+                                            {IconComponent ? <IconComponent className="text-danger" /> : null}
+                                        </div>
+                                        <div className="col-10">
+                                            <div className="text-dark">{notification.heading}</div>
+                                            <div className="text-muted small mt-1">{notification.description}</div>
+                                            <div className="text-muted small mt-1">{notification.time}</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            )
+                        })
+                    }
                 </div>
-                <div className="dropdown-menu-footer">
-                    <a href="#" className="text-muted">Show all notifications</a>
+                <div className="dropdown-menu-footer" style={{ visibility: props.Notifications.length ? "visible" : "hidden" }}>
+                    <a href="allnotifications" className="text-muted">Show all notifications</a>
                 </div>
             </div>
         </li>

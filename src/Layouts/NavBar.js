@@ -1,114 +1,100 @@
 import {
-    AlignLeft,
-    BarChart2,
-    Book,
-    CheckSquare,
-    Coffee,
-    Grid,
-    LogIn, Map,
-    Sliders,
-    Square,
-    User,
-    UserPlus
+    HelpCircle,
+    PieChart,
+    Settings,
+    User
 } from "react-feather";
+import Notifications from "../Components/Notifications";
+import Messages from "../Components/Messages";
+import avatar from "../img/avatars/avatar.jpg";
+import React from "react";
+import { useGlobal } from "../context/GlobalContext";
+// images
 
+import avatarTwo from '../img/avatars/avatar-2.jpg';
+import avatarThree from '../img/avatars/avatar-3.jpg';
+import avatarFour from '../img/avatars/avatar-4.jpg';
+import avatarFive from '../img/avatars/avatar-5.jpg';
+
+// Notifications
+const notificationList = [
+    {
+        icon:'AlertCircle',
+        heading:"Update completed",
+        description:"Restart server 12 to complete the update.",
+        time: "30m ago"
+    },
+    {
+        icon:"Bell",
+        heading:"Lorem ipsum",
+        description:"Aliquam ex eros, imperdiet vulputate hendrerit et.",
+        time: "2h ago"
+    },
+    {
+        icon:"AlertCircle",
+        heading:"Update completed",
+        description:"Restart server 12 to complete the update.",
+        time: "30m ago"
+    }
+];
+
+// messages
+
+const MessagesList = [
+    {
+        image:avatarTwo,
+        username:"Vanessa Tucker",
+        message:"Nam pretium turpis et arcu. Duis arcu tortor.",
+        time: "2h ago"
+    },
+    {
+        image:avatarThree,
+        username:"Vanessa Tucker",
+        message:"Nam pretium turpis et arcu. Duis arcu tortor.",
+        time: "3h ago"
+    },
+    {
+        image:avatarFour,
+        username:"Vanessa Tucker",
+        message:"Nam pretium turpis et arcu. Duis arcu tortor.",
+        time: "2h ago"
+    }
+]
 
 function NavBar(Props){
-
+    const { isSideBarOpen, setIsSideBarOpen } = useGlobal();
+    // console.log(isSideBarOpen);
     return (
-        <nav id="sidebar" className={`sidebar ${Props.SideBaropen ? "sidebar js-sidebar" : "sidebar js-sidebar collapsed"}`} >
-            <div className="sidebar-content js-simplebar">
-                <a className="sidebar-brand" href="/">
-                    <span className="align-middle">AdminKit</span>
-                </a>
+        <nav className="navbar navbar-expand navbar-light navbar-bg">
+            <a className="sidebar-toggle js-sidebar-toggle"
+               onClick={()=>{ setIsSideBarOpen(!isSideBarOpen) }}
+            >
+                <i className="hamburger align-self-center"></i>
+            </a>
 
-                <ul className="sidebar-nav">
-                    <li className="sidebar-header">
-                        Pages
-                    </li>
-
-                    <li className="sidebar-item active">
-                        <a className="sidebar-link" href="/">
-                            <Sliders className="align-middle" /> <span className="align-middle">Dashboard</span>
+            <div className="navbar-collapse collapse">
+                <ul className="navbar-nav navbar-align">
+                    <Notifications Notifications={notificationList}/>
+                    <Messages  Messages={MessagesList}/>
+                    <li className="nav-item dropdown">
+                        <a className="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
+                            <Settings className="align-middle" />
                         </a>
-                    </li>
 
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="pages-profile.html">
-                            <User className="align-middle" /> <span className="align-middle">Profile</span>
+                        <a className="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                            <img src={avatar} className="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span className="text-dark">Charles Hall</span>
                         </a>
-                    </li>
-
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="pages-sign-in.html">
-                            <LogIn className="align-middle" /> <span className="align-middle">Sign In</span>
-                        </a>
-                    </li>
-
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="pages-sign-up.html">
-                            <UserPlus className="align-middle" /> <span className="align-middle">Sign Up</span>
-                        </a>
-                    </li>
-
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="pages-blank.html">
-                            <Book className="align-middle" /> <span className="align-middle">Blank</span>
-                        </a>
-                    </li>
-
-                    <li className="sidebar-header">
-                        Tools & Components
-                    </li>
-
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="ui-buttons.html">
-                            <Square className="align-middle" /> <span className="align-middle">Buttons</span>
-                        </a>
-                    </li>
-
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="ui-forms.html">
-                            <CheckSquare className="align-middle" data-feather="check-square" /> <span className="align-middle">Forms</span>
-                        </a>
-                    </li>
-
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="ui-cards.html">
-                            <Grid className="align-middle" /> <span className="align-middle">Cards</span>
-                        </a>
-                    </li>
-
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="ui-typography.html">
-                            <AlignLeft className="align-middle" /> <span className="align-middle">Typography</span>
-                        </a>
-                    </li>
-
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="icons-feather.html">
-                            <Coffee className="align-middle" data-feather="coffee" /> <span className="align-middle">Icons</span>
-                        </a>
-                    </li>
-
-                    <li className="sidebar-header">
-                        Plugins & Addons
-                    </li>
-
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="charts-chartjs.html">
-                            <BarChart2 className="align-middle" /> <span className="align-middle">Charts</span>
-                        </a>
-                    </li>
-
-                    <li className="sidebar-item">
-                        <a className="sidebar-link" href="maps-google.html">
-                            <Map className="align-middle" /> <span className="align-middle">Maps</span>
-                        </a>
+                        <div className="dropdown-menu dropdown-menu-end">
+                            <a className="dropdown-item" href="pages-profile.html"><User className="align-middle me-1" /> Profile</a>
+                            <a className="dropdown-item" href="#"><PieChart className="align-middle me-1" /> Analytics</a>
+                            <div className="dropdown-divider"></div>
+                            <a className="dropdown-item" href="/"><Settings className="align-middle me-1" /> Settings & Privacy</a>
+                            <a className="dropdown-item" href="#"><HelpCircle className="align-middle me-1" /> Help Center</a>
+                            <div className="dropdown-divider"></div>
+                            <a className="dropdown-item" href="#">Log out</a>
+                        </div>
                     </li>
                 </ul>
-
-
             </div>
         </nav>
     )

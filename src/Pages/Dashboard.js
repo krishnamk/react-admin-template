@@ -1,24 +1,17 @@
 import React, {useEffect, useRef, useState} from "react";
 import {
-    User,
-    Settings,
-    PieChart,
-    HelpCircle,
     Truck,
     Users,
     DollarSign,
     ShoppingCart
 } from "react-feather";
-import avatar from '../img/avatars/avatar.jpg'
 import NavBar from "../Layouts/NavBar";
-import Notifications from "../Components/Notifications";
-import Messages from "../Components/Messages";
-
-
 import Chart from "chart.js/auto";
 import jsVectorMap from "jsvectormap";
 import "jsvectormap/dist/maps/world.js";
 import flatpickr from "flatpickr";
+import SideBar from "../Layouts/SideBar";
+import Footer from "../Components/Footer";
 
 
 function Dashboard() {
@@ -58,7 +51,41 @@ function Dashboard() {
                         data: [2115, 1562, 1584, 1892, 1587, 1923, 2566, 2448, 2805, 3438, 2917, 3327],
                     },
                 ],
-            }, { maintainAspectRatio: false }, "lineChart");
+            }, {
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    intersect: false
+                },
+                hover: {
+                    intersect: true
+                },
+                plugins: {
+                    filler: {
+                        propagate: false
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        reverse: true,
+                        gridLines: {
+                            color: "rgba(0,0,0,0.0)"
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            stepSize: 1000
+                        },
+                        display: true,
+                        borderDash: [3, 3],
+                        gridLines: {
+                            color: "rgba(0,0,0,0.0)"
+                        }
+                    }]
+                }
+            }, "lineChart");
         }
 
         // Pie Chart
@@ -72,7 +99,14 @@ function Dashboard() {
                         borderWidth: 5,
                     },
                 ],
-            }, { responsive: true, maintainAspectRatio: false }, "pieChart");
+            }, {
+                responsive: !window.MSInputMethodContext,
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                cutoutPercentage: 75
+            }, "pieChart");
         }
 
         // Bar Chart
@@ -87,7 +121,29 @@ function Dashboard() {
                         data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
                     },
                 ],
-            }, { maintainAspectRatio: false }, "barChart");
+            }, {
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                        stacked: false,
+                        ticks: {
+                            stepSize: 20
+                        }
+                    }],
+                    xAxes: [{
+                        stacked: false,
+                        gridLines: {
+                            color: "transparent"
+                        }
+                    }]
+                }
+            }, "barChart");
         }
 
         // Map
@@ -102,7 +158,19 @@ function Dashboard() {
                     { coords: [6.524379, 3.379206], name: "Lagos" },
                     { coords: [35.689487, 139.691711], name: "Tokyo" },
                 ],
-                zoomOnScroll: false,
+                markerStyle: {
+                    initial: {
+                        r: 9,
+                        strokeWidth: 7,
+                        stokeOpacity: .4,
+                        fill: window.theme.primary
+                    },
+                    hover: {
+                        fill: window.theme.primary,
+                        stroke: window.theme.primary
+                    }
+                },
+                zoomOnScroll: false
             });
         }
 
@@ -117,43 +185,15 @@ function Dashboard() {
         };
     }, []);
 
-    const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+
+
     return (
         <>
             <div className="wrapper">
-                 <NavBar SideBaropen={isSideBarOpen} />
+                 <SideBar />
 
                 <div className="main">
-                    <nav className="navbar navbar-expand navbar-light navbar-bg">
-                        <a className="sidebar-toggle js-sidebar-toggle" onClick={()=>{ setIsSideBarOpen(!isSideBarOpen) }}>
-                            <i className="hamburger align-self-center"></i>
-                        </a>
-
-                        <div className="navbar-collapse collapse">
-                            <ul className="navbar-nav navbar-align">
-                                <Notifications />
-                                <Messages />
-                                <li className="nav-item dropdown">
-                                    <a className="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
-                                        <Settings className="align-middle" />
-                                    </a>
-
-                                    <a className="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                                        <img src={avatar} className="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span className="text-dark">Charles Hall</span>
-                                    </a>
-                                    <div className="dropdown-menu dropdown-menu-end">
-                                        <a className="dropdown-item" href="pages-profile.html"><User className="align-middle me-1" /> Profile</a>
-                                        <a className="dropdown-item" href="#"><PieChart className="align-middle me-1" /> Analytics</a>
-                                        <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" href="/"><Settings className="align-middle me-1" /> Settings & Privacy</a>
-                                        <a className="dropdown-item" href="#"><HelpCircle className="align-middle me-1" /> Help Center</a>
-                                        <div className="dropdown-divider"></div>
-                                        <a className="dropdown-item" href="#">Log out</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
+                    <NavBar  />
 
                     <main className="content">
                         <div className="container-fluid p-0">
@@ -426,33 +466,7 @@ function Dashboard() {
                         </div>
                     </main>
 
-                    <footer className="footer">
-                        <div className="container-fluid">
-                            <div className="row text-muted">
-                                <div className="col-6 text-start">
-                                    <p className="mb-0">
-                                        <a className="text-muted" href="https://adminkit.io/" target="_blank"><strong>AdminKit</strong></a> - <a className="text-muted" href="https://adminkit.io/" target="_blank"><strong>Bootstrap Admin Template</strong></a>								&copy;
-                                    </p>
-                                </div>
-                                <div className="col-6 text-end">
-                                    <ul className="list-inline">
-                                        <li className="list-inline-item">
-                                            <a className="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
-                                        </li>
-                                        <li className="list-inline-item">
-                                            <a className="text-muted" href="https://adminkit.io/" target="_blank">Help Center</a>
-                                        </li>
-                                        <li className="list-inline-item">
-                                            <a className="text-muted" href="https://adminkit.io/" target="_blank">Privacy</a>
-                                        </li>
-                                        <li className="list-inline-item">
-                                            <a className="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </footer>
+                    <Footer />
                 </div>
             </div>
         </>
