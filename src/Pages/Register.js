@@ -20,7 +20,8 @@ function Register() {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            var formDataToSend = new FormData();
+            console.log(formData);
+            let formDataToSend = new FormData();
             formDataToSend.append("name", formData["name"]);
             formDataToSend.append("email", formData["email"]);
             formDataToSend.append("password", formData["password"]);
@@ -28,7 +29,7 @@ function Register() {
                 method: "POST",
                 body: formDataToSend,
             });
-            const data = await response.json();
+            let data = await response.json();
             console.log(data);
             if(data.token){
                 localStorage.setItem("authToken", data.token);

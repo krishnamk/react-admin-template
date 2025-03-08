@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -11,6 +11,35 @@ function Login() {
         }
     }, [navigate]);
 
+    const [formData, setFormData] = useState({email: "", password: ""});
+
+    const changeHandler = e => {
+
+        setFormData({...formData, [e.target.name]: e.target.value});
+    }
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        try {
+            let formDataToSend = new FormData();
+            formDataToSend.append("email", formData["email"]);
+            formDataToSend.append("password", formData["password"]);
+            let response = await fetch("http://127.0.0.1:8000/api/login", {
+                method: "POST",
+                body: formDataToSend,
+            });
+            let data = await response.json();
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            if(data.token) {
+                localStorage.setItem("authToken", data.token);
+                navigate("/dashboard");
+            }
+        } catch (e) {
+            console.log(e);
+        }
+
+    }
     return (
         <main className="d-flex w-100">
             <div className="container d-flex flex-column">
@@ -28,16 +57,16 @@ function Login() {
                             <div className="card">
                                 <div className="card-body">
                                     <div className="m-sm-3">
-                                        <form>
+                                        <form onSubmit={submitHandler}>
                                             <div className="mb-3">
                                                 <label className="form-label">Email</label>
                                                 <input className="form-control form-control-lg" type="email"
-                                                       name="email" placeholder="Enter your email"/>
+                                                       name="email" placeholder="Enter your email" onChange={changeHandler} value={formData.email}/>
                                             </div>
                                             <div className="mb-3">
                                                 <label className="form-label">Password</label>
                                                 <input className="form-control form-control-lg" type="password"
-                                                       name="password" placeholder="Enter your password"/>
+                                                       name="password" placeholder="Enter your password" onChange={changeHandler} value={formData.password}/>
                                             </div>
                                             <div>
                                                 <div className="form-check align-items-center">
@@ -49,7 +78,7 @@ function Login() {
                                                 </div>
                                             </div>
                                             <div className="d-grid gap-2 mt-3">
-                                                <a href="dashboard" className="btn btn-lg btn-primary">Sign in</a>
+                                                <button type="submit" className="btn btn-lg btn-primary">Sign in</button>
                                             </div>
                                         </form>
                                     </div>
