@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import {
     Truck,
     Users,
@@ -158,18 +158,6 @@ function Dashboard() {
                     { coords: [6.524379, 3.379206], name: "Lagos" },
                     { coords: [35.689487, 139.691711], name: "Tokyo" },
                 ],
-                markerStyle: {
-                    initial: {
-                        r: 9,
-                        strokeWidth: 7,
-                        stokeOpacity: .4,
-                        fill: window.theme.primary
-                    },
-                    hover: {
-                        fill: window.theme.primary,
-                        stroke: window.theme.primary
-                    }
-                },
                 zoomOnScroll: false
             });
         }
@@ -407,7 +395,7 @@ function Dashboard() {
                                                 <td className="d-none d-xl-table-cell">01/01/2023</td>
                                                 <td className="d-none d-xl-table-cell">31/06/2023</td>
                                                 <td><span className="badge bg-success">Done</span></td>
-                                                <td className="d-none d-md-table-cell">Sharon Lessman</td>
+                                                <td className="d-none d-md-table-cell">Sharon Less man</td>
                                             </tr>
                                             <tr>
                                                 <td>Project Nitro</td>
@@ -428,7 +416,7 @@ function Dashboard() {
                                                 <td className="d-none d-xl-table-cell">01/01/2023</td>
                                                 <td className="d-none d-xl-table-cell">31/06/2023</td>
                                                 <td><span className="badge bg-success">Done</span></td>
-                                                <td className="d-none d-md-table-cell">Sharon Lessman</td>
+                                                <td className="d-none d-md-table-cell">Sharon Less man</td>
                                             </tr>
                                             <tr>
                                                 <td>Project Romeo</td>

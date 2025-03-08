@@ -1,7 +1,27 @@
-import React from "react";
+import React ,{ useState } from "react";
 
 
 function Register() {
+    const  [formData, setFormData] = useState({name: "", email: "", password: ""});
+    const changeHandler = (e) => {
+        setFormData({...formData, [e.target.name]: e.target.value});
+    }
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        // console.log(formData);
+        var formDataToSend = new FormData();
+        formDataToSend.append("name", formData["name"]);
+        formDataToSend.append("email", formData["email"]);
+        formDataToSend.append("password", formData["password"]);
+        const response = await fetch("http://127.0.0.1:8000/api/register", {
+            method: "POST",
+            body: formDataToSend,
+        });
+        const data = await response.json();
+        console.log(data);
+
+    }
+
     return (
         <main className="d-flex w-100">
             <div className="container d-flex flex-column">
@@ -19,24 +39,30 @@ function Register() {
                             <div className="card">
                                 <div className="card-body">
                                     <div className="m-sm-3">
-                                        <form>
+                                        <form onSubmit={submitHandler} >
                                             <div className="mb-3">
                                                 <label className="form-label">Full name</label>
                                                 <input className="form-control form-control-lg" type="text" name="name"
-                                                       placeholder="Enter your name"/>
+                                                       placeholder="Enter your name" value={formData.name}
+                                                onChange={changeHandler}
+                                                />
                                             </div>
                                             <div className="mb-3">
                                                 <label className="form-label">Email</label>
                                                 <input className="form-control form-control-lg" type="email"
-                                                       name="email" placeholder="Enter your email"/>
+                                                       name="email" placeholder="Enter your email" value={formData.email}
+                                                       onChange={changeHandler}
+                                                />
                                             </div>
                                             <div className="mb-3">
                                                 <label className="form-label">Password</label>
                                                 <input className="form-control form-control-lg" type="password"
-                                                       name="password" placeholder="Enter password"/>
+                                                       name="password" placeholder="Enter password" value={formData.password}
+                                                       onChange={changeHandler}
+                                                />
                                             </div>
                                             <div className="d-grid gap-2 mt-3">
-                                                <a href="dashboard" className="btn btn-lg btn-primary">Sign up</a>
+                                                <button type="submit" className="btn btn-lg btn-primary">Sign up</button>
                                             </div>
                                         </form>
                                     </div>
