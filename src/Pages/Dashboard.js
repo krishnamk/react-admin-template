@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from "react";
+import { useNavigate } from "react-router-dom";
 import {
     Truck,
     Users,
@@ -15,6 +16,8 @@ import Footer from "../Components/Footer";
 
 
 function Dashboard() {
+    const navigate = useNavigate();
+
     const lineChartRef = useRef(null);
     const pieChartRef = useRef(null);
     const barChartRef = useRef(null);
@@ -23,6 +26,13 @@ function Dashboard() {
 
     // Store chart instances
     const chartInstances = useRef({});
+
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+            navigate("/"); // Redirect to home if no token
+        }
+    }, [navigate]);
 
     useEffect(() => {
         // Function to create a chart and clean up previous instance

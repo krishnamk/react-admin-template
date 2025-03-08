@@ -1,24 +1,43 @@
-import React ,{ useState } from "react";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 
 function Register() {
+    const navigate = useNavigate();
     const  [formData, setFormData] = useState({name: "", email: "", password: ""});
     const changeHandler = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value});
     }
+
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        console.log(token);
+        if (token) {
+            navigate("/dashboard"); // Redirect to home if no token
+        }
+    }, [navigate]);
+
     const submitHandler = async (e) => {
         e.preventDefault();
-        // console.log(formData);
-        var formDataToSend = new FormData();
-        formDataToSend.append("name", formData["name"]);
-        formDataToSend.append("email", formData["email"]);
-        formDataToSend.append("password", formData["password"]);
-        const response = await fetch("http://127.0.0.1:8000/api/register", {
-            method: "POST",
-            body: formDataToSend,
-        });
-        const data = await response.json();
-        console.log(data);
+        try {
+            var formDataToSend = new FormData();
+            formDataToSend.append("name", formData["name"]);
+            formDataToSend.append("email", formData["email"]);
+            formDataToSend.append("password", formData["password"]);
+            const response = await fetch("http://127.0.0.1:8000/api/register", {
+                method: "POST",
+                body: formDataToSend,
+            });
+            const data = await response.json();
+            console.log(data);
+            if(data.token){
+                localStorage.setItem("authToken", data.token);
+                navigate("/dashboard");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
 
     }
 

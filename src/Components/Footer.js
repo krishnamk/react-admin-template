@@ -7,10 +7,8 @@ const Footer = () => {
                 <div className="row text-muted">
                     <div className="col-6 text-start">
                         <p className="mb-0">
-                            <a className="text-muted" href="https://krishnamk.in"
-                               target="_blank"><strong>KRISHNA MK</strong></a> -
-                            <a className="text-muted" href="https://krishnamk.in"
-                               target="_blank"><strong>2025</strong></a> &copy;
+                            <a className="text-muted" href="https://krishnamk.in" ><strong>KRISHNA MK</strong></a> -
+                            <a className="text-muted" href="https://krishnamk.in" ><strong>2025</strong></a> &copy;
                         </p>
                     </div>
                     {/*<div className="col-6 text-end">*/}

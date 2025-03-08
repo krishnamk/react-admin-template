@@ -1,7 +1,16 @@
-import React from "react";
-
+import React, {useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    var navigate = useNavigate();
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        console.log(token);
+        if (token) {
+            navigate("/dashboard"); // Redirect to home if no token
+        }
+    }, [navigate]);
+
     return (
         <main className="d-flex w-100">
             <div className="container d-flex flex-column">
